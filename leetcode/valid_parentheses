@@ -1,0 +1,51 @@
+def isValid( s: str) -> bool:
+        stack = []
+        # Mapping of closing to opening brackets
+        mapping = {')': '(', '}': '{', ']': '['}
+
+        for char in s:
+            if char in mapping.values():
+                # Opening bracket → push onto stack
+                stack.append(char)
+            elif char in mapping:
+                # Closing bracket → stack must not be empty and top must match
+                if not stack or stack[-1] != mapping[char]:
+                    return False
+                stack.pop()  # Pop the matching opening bracket
+            else:
+                # Invalid character
+                return False
+
+        # Stack must be empty for a valid string
+        return not stack
+    
+def isValid1(s: str) -> bool:
+    mapping = {')': '(', '}': '{', ']': '['}
+    len_str = len(s)
+    if (len_str % 2 == 1 or len_str == 0):
+        return False
+    
+    for i in range(len_str//2):
+        if(s[i] != mapping[s[-(i + 1)]]):
+            return False
+        
+    return True
+
+def isValid2(s: str) -> bool:
+    mapping = {')': '(', '}': '{', ']': '['}
+    n = len(s)
+
+    # same condition you used
+    if n == 0 or n % 2 == 1:
+        return False
+
+    # pythonic looping with zip
+    for left, right in zip(s[:n//2], reversed(s[n//2:])):
+        if mapping.get(right) != left:
+            return False
+
+    return True
+
+    
+    
+print(isValid1("([)]"))
